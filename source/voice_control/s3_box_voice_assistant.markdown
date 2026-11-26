@@ -14,7 +14,7 @@ related:
     title: Enable wake word
   - docs: /voice_control/s3-box-customize/#customizing-on-device-wake-words-microwakeword
     title: Customizing the S3-BOX with on-device wake words
-  - url: https://esphome.io/projects/index.html
+  - url: https://esphome.io/projects/
     title: ESPHome projects page
 ---
 
@@ -26,7 +26,7 @@ This tutorial will guide you to turn an ESP32-S3-BOX, ESP32-S3-BOX-3(B), or an E
 ## Prerequisites
 
 - Home Assistant 2023.12 or later, installed with the Home Assistant Operating System. If you do not have Home Assistant installed yet, refer to the [installation page](/installation/) for instructions.
-- [Home Assistant Cloud](/voice_control/voice_remote_cloud_assistant/) or a manually configured [Assist Pipeline](/voice_control/voice_remote_local_assistant)
+- [Home Assistant Link](/voice_control/voice_remote_cloud_assistant/) or a manually configured [Assist Pipeline](/voice_control/voice_remote_local_assistant)
 - The password to your 2.4&nbsp;GHz Wi-Fi network
 - Chrome or Edge browser on a desktop (not Android/iOS)
 - One of the Espressif ESP32-S3-BOX variants:
@@ -49,16 +49,16 @@ Before you can use this device with Home Assistant, you need to install a bit of
        - Select the **Connect** button below to display a list of available USB devices. Do not connect the ESP32-S3-BOX-3 yet. We want to see the list of available USB devices first, so that it is easier to recognize the ESP device afterward.
        - If your browser does not support web serial, you will see a warning message indicating this instead of a button.
 
-           <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+           <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module" integrity="sha384-2Ea4WL8tjFb0qQKUqBoX45KlPVoUgL+Z3zUqsD0MHmtJ3faDbfNyZulLg/LfYDUZ" crossorigin="anonymous"></script>
            <esp-web-install-button manifest="https://firmware.esphome.io/wake-word-voice-assistant/esp32-s3-box-3/manifest.json"></esp-web-install-button>
 
-       - **For advanced users**: The configuration files are available on GitHub:
+       - **To customize the configuration**: The configuration files are available on GitHub:
          - [ESP32-S3-BOX-3 config on GitHub](https://github.com/esphome/wake-word-voice-assistants/blob/main/esp32-s3-box-3/esp32-s3-box-3.yaml)
 
     2. To connect the ESP32-S3-BOX-3 to your computer, follow these steps:
        - In the pop-up window, view the available ports.
        - Plug the USB-C cable into the box directly, not into the docking station (not into the blue part) and connect it to your computer.
-       - **Troubleshooting**: If your ESP32-S3-BOX-3 does not appear in the list of devices presented by your browser, you need to manually invoke "flash mode":
+       - Troubleshooting: If your ESP32-S3-BOX-3 does not appear in the list of devices presented by your browser, you need to manually invoke "flash mode":
          - Hold the "boot" button (left side upper button) as you tap the "reset" button (left side lower button).
          - After a few seconds, the ESP32-S3-BOX-3 should appear in the list of USB devices presented by your browser.
          - Follow the steps until step 3. After selecting the **Next** button, on the S3-Box-3, tap the "Reset" button again.
@@ -94,10 +94,10 @@ Before you can use this device with Home Assistant, you need to install a bit of
 
        - If your browser does not support web serial, you will see a warning message indicating this instead of a button.
 
-           <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+           <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module" integrity="sha384-2Ea4WL8tjFb0qQKUqBoX45KlPVoUgL+Z3zUqsD0MHmtJ3faDbfNyZulLg/LfYDUZ" crossorigin="anonymous"></script>
            <esp-web-install-button manifest="https://firmware.esphome.io/wake-word-voice-assistant/esp32-s3-box/manifest.json"></esp-web-install-button>
 
-       - **For advanced users**: The configuration files are available on GitHub:
+       - **To customize the configuration**: The configuration files are available on GitHub:
          - [ESP32-S3-BOX config on GitHub](https://github.com/esphome/wake-word-voice-assistants/blob/main/esp32-s3-box/esp32-s3-box.yaml)
 
     2. To connect the ESP32-S3-BOX to your computer, follow these steps:
@@ -131,10 +131,10 @@ Before you can use this device with Home Assistant, you need to install a bit of
 
        - If your browser does not support web serial, you will see a warning message indicating this instead of a button.
 
-           <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+           <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module" integrity="sha384-2Ea4WL8tjFb0qQKUqBoX45KlPVoUgL+Z3zUqsD0MHmtJ3faDbfNyZulLg/LfYDUZ" crossorigin="anonymous"></script>
            <esp-web-install-button manifest="https://firmware.esphome.io/wake-word-voice-assistant/esp32-s3-box-lite/manifest.json"></esp-web-install-button>
 
-       - **For advanced users**: The configuration files are available on GitHub:
+       - **To customize the configuration**: The configuration files are available on GitHub:
          - [ESP32-S3-BOX-Lite config on GitHub](https://github.com/esphome/wake-word-voice-assistants/blob/main/esp32-s3-box-lite/esp32-s3-box-lite.yaml)
 
     2. To connect the ESP32-S3-BOX-Lite to your computer, follow these steps:
@@ -173,8 +173,6 @@ Before you can use this device with Home Assistant, you need to install a bit of
       - Local processing is faster.
       - The wake word is now *Okay Nabu*.
 
-      ![ESP32-S3-BOX-3 on device wake word processing](/images/assist/wake_word_engine_location.png)
-
 4. If you chose on-device wake word, but you do not want to use *Okay Nabu*, you can change the on-device wake word.
    - Currently, *Hey Jarvis* or *Alexa* are the supported alternatives.
    - To change your wake word, follow the steps in [Customizing the S3-BOX-3 with on-device wake words](/voice_control/s3-box-customize/#customizing-on-device-wake-words-microwakeword).
@@ -194,14 +192,14 @@ Before you can use this device with Home Assistant, you need to install a bit of
 ## Turning off microphone or screen
 
 1. If you do not want to Assist to listen to you for a while, you can turn off the microphone.
-   - Go to {% my integrations title="**Settings** > **Devices & Services**" %} and select the **ESPHome** integration.
+   - Go to {% my integrations title="**Settings** > **Devices & services**" %} and select the **ESPHome** integration.
       - Under **ESP32-S3-BOX-3**, select **1 device**.
       - Enable **Mute**.
       - The screen of the ESP32-S3-BOX-3 will turn off, too.
 
       ![Toggle to enable/disable Mute](/images/assist/wake_word_disable.png)
 2. If you want to just use the wake word, but do not want to use the screen, you can turn it off.
-   - Go to {% my integrations title="**Settings** > **Devices & Services**" %} and select the **ESPHome** integration.
+   - Go to {% my integrations title="**Settings** > **Devices & services**" %} and select the **ESPHome** integration.
      - Under **ESP32-S3-BOX-3**, select **1 device**.
      - Disable **Screen**.
 
@@ -219,5 +217,5 @@ To update the software on your S3-BOX, follow the steps below that reflect your 
     - This installs the latest, precompiled firmware for your S3-BOX.
 - **Option 3**: You have manually changed the configuration file for your S3-BOX:
   - You need to compile your own firmware. To do so, either:
-    - Use the ESPHome dashboard add-on within Home Assistant. While the easiest option, it tends to be the slowest and may fail, particularly on older systems or on systems with limited memory/CPU resources.
-    - Follow the steps in the [ESPHome documentation](https://esphome.io/guides/getting_started_command_line) and use a desktop-class system to compile and install the firmware. Initial setup is more complex, but the process is significantly faster and more reliable.
+    - Use the ESPHome dashboard app within Home Assistant. While the easiest option, it tends to be the slowest and may fail, particularly on older systems or on systems with limited memory/CPU resources.
+    - Follow the steps in the [ESPHome documentation](https://esphome.io/guides/getting_started_command_line/) and use a desktop-class system to compile and install the firmware. Initial setup is more complex, but the process is significantly faster and more reliable.

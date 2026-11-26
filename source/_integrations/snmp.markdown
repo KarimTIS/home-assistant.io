@@ -1,22 +1,7 @@
 ---
-title: SNMP
 description: Instructions on how to integrate SNMP into Home Assistant.
-ha_category:
-  - Network
-  - Presence detection
-  - Sensor
-  - Switch
-ha_iot_class: Local Polling
 ha_release: 0.57
 ha_domain: snmp
-ha_platforms:
-  - device_tracker
-  - sensor
-  - switch
-ha_integration_type: integration
-ha_codeowners:
-  - '@nmaggioni'
-ha_quality_scale: legacy
 ---
 
 Many routers, Wi-Fi access points, printers, and other network-connected devices support the [Simple Network Management Protocol (SNMP)](https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol). This is a standardized method for monitoring/managing network-connected devices. SNMP uses a tree-like hierarchy where each node is an object. Many of these objects contain continuously updated lists of metrics like network interfaces throughput, disk activity, active devices on the network, toner levels, and such.
@@ -49,7 +34,7 @@ The following OIDs refer to the current MAC Address table from various common ro
 | MikroTik | unknown RouterOS version/model   | `1.3.6.1.4.1.14988.1.1.1.2.1.1`                 |
 | MikroTik | RouterOS 6.x on RB2011           | `1.3.6.1.2.1.4.22.1.2`                          |
 | OpenWrt  | Chaos Calmer 15.05               | `1.3.6.1.2.1.4.22.1.2`                          |
-| OPNSense | 19.1                             | `1.3.6.1.2.1.4.22.1.2`                          |
+| OPNsense | 19.1                             | `1.3.6.1.2.1.4.22.1.2`                          |
 | pfSense  | 2.2.4                            | `1.3.6.1.2.1.4.22.1.2`                          |
 | Ruckus   | ZoneDirector 9.13.3              | `1.3.6.1.4.1.25053.1.2.2.1.1.3.1.1.1.6`         |
 | TP-Link  | Archer VR1600v                   | `1.3.6.1.2.1.3.1.1.2.16.1`                      |
@@ -189,7 +174,7 @@ priv_protocol:
   type: string
   default: 'none'
 state_class:
-  description: The [state_class](https://developers.home-assistant.io/docs/core/entity/sensor#available-state-classes) of the sensor.
+  description: The [state_class](/integrations/sensor/#state-class) of the sensor.
   required: false
   type: string
 unique_id:
@@ -197,7 +182,7 @@ unique_id:
   required: false
   type: string
 unit_of_measurement:
-  description: Defines the units of measurement of the sensor, if any.
+  description: Defines the units of measurement of the sensor, if any. When a `device_class` is set, the unit must be one of the [units listed for that device class](/integrations/sensor/#list-of-available-device-classes).
   required: false
   type: string
 username:
@@ -206,7 +191,7 @@ username:
   type: string
   default: ''
 value_template:
-  description: "Defines a [template](/docs/configuration/templating/#processing-incoming-data) to parse the value."
+  description: "Defines a [template](/docs/templating/where-to-use/#processing-incoming-data) to parse the value."
   required: false
   type: template
 version:
@@ -237,7 +222,7 @@ Valid values for `priv_protocol`:
 
 ### Finding OIDs
 
-OIDs may vary on different systems because they are vendor-specific. Besides the device's manual, the [OID Repository](http://www.oid-info.com/) is a good place to start if you are looking for OIDs. As an example, the following OIDs are for the load of a Linux system.
+OIDs may vary on different systems because they are vendor-specific. The best place to find OIDs is in your device's manual or vendor documentation. For example, the following OIDs are for the load of a Linux system.
 
 - 1 minute Load: `1.3.6.1.4.1.2021.10.1.3.1`
 - 5 minute Load: `1.3.6.1.4.1.2021.10.1.3.2`
@@ -258,8 +243,6 @@ According to the most common SNMP standard, the uptime of a device is accessible
 
 To create a sensor that displays the uptime for your printer in minutes, you can use this configuration:
 
-{% raw %}
-
 ```yaml
 # Example configuration.yaml entry
 sensor:
@@ -271,8 +254,6 @@ sensor:
     unit_of_measurement: "minutes"
     value_template: "{{((value | int) / 6000) | int}}"
 ```
-
-{% endraw %}
 
 The `accept_errors` option will allow the sensor to work even if the printer is not on when Home Assistant is first started: the sensor will just display a `-` instead of a minute count.
 
@@ -300,7 +281,7 @@ baseoid:
   required: true
   type: string
 command_oid:
-  description: The SNMP OID which to set in order to turn the switch on and off, if different from `baseoid`.
+  description: The SNMP OID which to set to turn the switch on and off, if different from `baseoid`.
   required: false
   type: string
 host:
@@ -369,7 +350,7 @@ command_payload_off:
 vartype:
   description: The SNMP vartype for the `payload_on` and `payload_off` commands as defined in [RFC1902](https://tools.ietf.org/html/rfc1902.html).
   required: false
-  type: string  
+  type: string
   default: 'none'
 {% endconfiguration %}
 

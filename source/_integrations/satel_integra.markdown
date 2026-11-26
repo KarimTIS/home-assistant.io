@@ -1,66 +1,69 @@
 ---
-title: Satel Integra
 description: Instructions on how to integrate a Satel Integra alarm panel with Home Assistant using an ETHM network extension from Satel.
-ha_category:
-  - Alarm
-  - Binary sensor
-  - Hub
-  - Switch
 ha_release: 0.54
-ha_iot_class: Local Push
-ha_config_flow: true
-ha_codeowners:
-  - '@Tommatheussen'
 ha_domain: satel_integra
-ha_platforms:
-  - alarm_control_panel
-  - binary_sensor
-  - diagnostics
-  - switch
-ha_integration_type: integration
-related:
-  - docs: /docs/configuration/
-    title: Configuration file
-ha_quality_scale: legacy
 ---
 
-The `satel_integra` {% term integration %} will allow Home Assistant users who own a Satel Integra alarm panel to leverage their alarm system and its sensors to provide Home Assistant with information about their homes. Connectivity between Home Assistant and the alarm is accomplished through a ETHM extension module that must be installed in the alarm. Compatible with ETHM-1 Plus module with firmware version > 2.00 (version 2.04 confirmed).
+The **Satel Integra** {% term integration %} allows you to connect your [Satel Integra alarm system](https://www.satel.pl/en/product-category/intruder-alarms/integra/) to Home Assistant to control and monitor your alarm system.
 
 There is currently support for the following device types within Home Assistant:
 
-- Binary sensor: Reports on zone or output statuses
+- Binary sensor: Reports on zone or output statuses, and on the alarm panel's service mode and system troubles
 - Switch: allows for setting states of selected outputs
 - Alarm control panel: represents the zones (in Polish: "strefa"). Reports its status, and can be used to arm/disarm the partition
+- Sensor: Reports zone temperatures for zones that have temperature support 
 
 The module communicates via Satel's open TCP protocol published on their website. It subscribes for new events coming from alarm system and reacts to them immediately.
 
-## Setup
+## Supported devices
 
-Please note that **ETHM-1 module is currently not supported**: it does not provide functionality used by this extension. At the moment only ETHM-1 Plus module is supported. That might change in the future, but no promises are given.
+The integration only supports the **ETHM-1 Plus**, with firmware version 2.00 or greater. Only the Integra line of alarm systems is supported.
 
-The library currently doesn't support encrypted connection to your alarm, so you need **to turn off encryption for integration protocol**. In Polish: "koduj integracje" must be unchecked. You will find this setting in your DloadX program.
+## Prerequisites
 
-A list of all partition, zone and output IDs can be acquired by running DloadX program and connecting to your alarm.
+1. Open the [DLOADX](https://www.satel.eu/nl/product/343/DLOADX,INTEGRA-en-VERSA-Alarmsysteem-installatie-programma) installer program.
+2. Open your existing project file.
+3. Open the **System and hardware structure** tab.
+4. Navigate to the **Hardware** section, expand the tree and select the **ETHM-1 Plus** module.
+5. Select the **Integration** checkbox.
+6. Configure encryption:
+    - If you want to use an unencrypted connection, clear the **Encrypted integration** checkbox.
+    - If you want to use an encrypted connection, select the **Encrypted integration** checkbox and note the
+     integration encryption key you configured in the **Keypads** module from the navigation tree.
 
-For the binary sensor, check the [type/class](/integrations/binary_sensor/) list for a possible visualization of your zones. Note: If no zones or outputs are specified, Home Assistant will not load any binary_sensor integrations."
+{% note %}
+If you do not have access to the DLOADX program or your project file, ask your installer to adjust the settings for you.
+{% endnote %}
 
 {% include integrations/config_flow.md %}
+
+### Configuration parameters
 
 {% configuration_basic %}
 Host:
   description: The IP address of the Satel Integra ETHM module.
 Port:
   description: The port on which the ETHM module listens for clients using the integration protocol.
+Integration encryption key:
+  description: Encryption key to use if an encrypted connection is used, as configured in DLOADX
+    for the ETHM-1 Plus module. Leave empty if not using an encrypted connection.
+{% endconfiguration_basic %}
+
+{% include integrations/option_flow.md %}
+
+{% configuration_basic %}
 Code:
-  description: Optional code that will be used to toggle switchable outputs.
+  description: The 4- to 16-digit user code configured on the alarm panel. The integration uses this code to toggle switchable outputs. Leave the field empty if you do not need to control switchable outputs.
 {% endconfiguration_basic %}
 
 ## Configuring partitions, zones, and outputs
 
 After setting up the connection details, you can configure partitions, zones, and outputs as **Subentries** on the {% my integration domain="satel_integra" title="**Satel Integra**" %} integration page.
 
+A list of all partition, zone, and output IDs can be acquired by running the DLOADX program and connecting to your alarm.
 To create the respective entities, select the **Add partition**, **Add zone**, **Add output**, or **Add switchable output** buttons. Follow the instructions in the UI to set up the individual entities.
-**Result**: Each partition will have its own alarm panel. Each zone and output will have a binary sensor, and a switch will be created for each switchable output.
+
+Result: Each partition will have its own alarm panel. Each zone will have a main binary sensor for its violation state, plus **Tamper** and **Bypass** binary sensors that are disabled by default. Each output will have a binary sensor, and a switch will be created for each switchable output. Sensors will be created for each zone that has temperature sensor support enabled.
 
 Having configured the zones and the outputs, you can use them for automation, such as to react on the movement in your bedroom.
 For example:
@@ -76,3 +79,62 @@ For example:
       target:
         entity_id: input_boolean.movement_detected
 ```
+
+## Supported functionality
+
+### Binary sensors
+
+#### Zone sensors
+
+Each configured zone has a main binary sensor named after the zone. It reports whether the panel detects a zone violation, such as motion or an open door. The sensor uses the type selected when configuring the zone, such as motion or door, to display its state. A zone violation is not the same as a triggered alarm.
+
+Each zone also has the following additional binary sensors:
+
+- **Tamper**: Whether the panel reports a tamper condition for the zone.
+- **Bypass**: Whether the panel reports that the zone is bypassed. This sensor only reports the bypass status; it cannot bypass or unbypass the zone.
+
+{% tip %}
+The **Tamper** and **Bypass** sensors are disabled by default. See [Enabling and disabling entities](/docs/configuration/customizing-entities/#disabling-or-enabling-an-entity) to enable them.
+{% endtip %}
+
+#### System status sensors
+
+- **Service mode**: Whether the panel is in service mode, activated during maintenance. Use it to pause automations while the panel is under maintenance.
+- **System trouble**: Whether any system trouble is active on the alarm panel.
+
+#### Individual trouble sensors
+
+{% tip %}
+The individual trouble sensors are disabled by default. See [Enabling and disabling entities](/docs/configuration/customizing-devices/#disabling-or-enabling-an-entity) to enable them.
+{% endtip %}
+
+{% details "Individual trouble sensors" %}
+
+- **Panel AC trouble**: Whether the panel has lost its AC power supply.
+- **Panel battery trouble**: Whether there is a fault with the panel backup battery.
+- **Panel battery missing**: Whether no backup battery is connected to the panel.
+- **Output {number} trouble**: Whether there is a trouble condition on the specified output (outputs 1–4).
+- **Keypad power supply trouble**: Whether there is a fault with the keypad power supply.
+- **Expander power supply trouble**: Whether there is a fault with an expander module power supply.
+- **DT1 trouble**: Whether there is a trouble on the first expander bus data line.
+- **DT2 trouble**: Whether there is a trouble on the second expander bus data line.
+- **DTM trouble**: Whether there is a trouble on the keypad bus data line.
+- **RTC trouble**: Whether there is a real-time clock fault on the panel.
+- **EEPROM or RTC access trouble**: Whether there is a fault accessing the panel's EEPROM or RTC memory.
+- **RAM trouble**: Whether there is a RAM memory fault on the panel.
+- **Panel restart memory trouble**: Whether there is a fault with the panel's restart memory.
+- **External device DTR trouble**: Whether the panel detects no DTR (Data Terminal Ready) signal from an external device.
+- **External modem initialization trouble**: Whether there is a failure during external modem initialization.
+- **External modem command trouble**: Whether there is a command failure to the external modem.
+- **Telephone line bad signal trouble**: Whether there is a poor signal quality on the telephone line.
+- **Telephone line no signal trouble**: Whether there is no signal detected on the telephone line.
+- **Telephone line voltage or auxiliary processor trouble**: Whether there is a telephone line voltage fault or an auxiliary processor fault, depending on the panel model.
+- **Monitoring station {number} trouble**: Whether there is a trouble communicating with the specified monitoring station (stations 1–2).
+
+{% enddetails %}
+
+## Removing the integration
+
+This integration follows standard integration removal. Once the integration is removed, consider disabling the communication ability to the ETHM-1 Plus module using DLOADX to reduce security risks.
+
+{% include integrations/remove_device_service.md %}

@@ -4,6 +4,8 @@ title: "Matter in Home Assistant workshop announcement"
 description: "On June 15 we're showing how Matter will work and guide you in getting it set up."
 date: 2022-05-29 00:00:00
 date_formatted: "May 29, 2022"
+updated: 2026-11-24 00:00:00
+updated_formatted: "November 24, 2026"
 author: Paulus Schoutsen
 author_twitter: balloob
 comments: true
@@ -15,6 +17,10 @@ og_image: /images/blog/2022-05-matter-in-home-assistant-workshop-announcement/so
 <!--<img src='/images/blog/2022-05-matter-in-home-assistant-workshop-announcement/header.png' alt="Decorative header." class='no-shadow'>-->
 
 <lite-youtube videoid="9fOHBl5w0_k" videotitle="Matter in Home Assistant workshop"></lite-youtube>
+
+{% note title="Update" %}
+From Home Assistant 2026.11, HACS is built into Home Assistant as the [Marketplace](/integrations/marketplace/). This post describes HACS as it was at time of writing.
+{% endnote %}
 
 ## [The workshop instructions can be found here.](/matter-june-22)
 
@@ -37,7 +43,7 @@ The workshop will be free but you will need a couple of things if you want to be
 - Home Assistant OS 8.0 or newer, 64-bit version only (x86-64 or aarch64). Matter relies on an add-on and Bluetooth.
 - [Home Assistant Community Store](https://hacs.xyz/) installed
 - Espressif ESP32-C3-DevKitM-1 ($9 @ [Mouser](https://www.mouser.com/ProductDetail/356-ESP32-C3DEVKITM1), €17 @ [Conrad](https://www.conrad.com/p/espressif-pcb-design-board-esp32-c3-devkitm-1-2490158)) or M5Stamp C3 ($6 @ [M5Stack](https://twitter.com/home_assistant/status/1531712479016890369))
-- Bluetooth. If you use a Raspberry Pi to run Home Assistant you’re set. If you have a Home Assistant Blue or another device without Bluetooth, get a Bluetooth USB adapter that is supported by Home Assistant OS ([like this one](https://www.amazon.com/gp/product/B09DMP6T22/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B09DMP6T22&linkCode=as2&tag=homeassista0e-20&linkId=c5046239bf04d5b21835299dfb393f0e)).
+- Bluetooth. If you use a Raspberry Pi to run Home Assistant you’re set. If you have a Home Assistant Blue or another device without Bluetooth, get a Bluetooth USB adapter that is supported by Home Assistant OS ([like this one](https://www.amazon.com/dp/B09DMP6T22)).
 
 Even if you can’t follow along, it will still be an informative session!
 

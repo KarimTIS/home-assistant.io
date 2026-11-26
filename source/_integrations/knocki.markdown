@@ -1,39 +1,33 @@
 ---
-title: Knocki
-description: Instructions on how to setup Knocki devices in Home Assistant.
-ha_category:
-  - Event
-ha_config_flow: true
+description: Instructions on how to set up Knocki devices in Home Assistant.
 ha_release: 2024.7
-ha_iot_class: Cloud Push
-ha_codeowners:
-  - '@joostlek'
-  - '@jgatto1'
-  - '@JakeBosh'
 ha_domain: knocki
-ha_platforms:
-  - event
-ha_integration_type: hub
-ha_dhcp: true
 ---
 
 The **Knocki** {% term integration %} allows you to trigger your favorite automations simply by tapping custom patterns (such as triple taps) on ordinary surfaces.
 
 ## Prerequisites
 
-- You must have a [Knocki device](http://knocki.com).
+- You must have a [Knocki device](https://knocki.com/).
 
 - Completed the setup process in the **Knocki** mobile app, as described in steps 1-7 below.
 
-1. Open the Knocki Mobile App. It’s a free download on [iOS](https://apps.apple.com/us/app/knocki/id1238395440) and [Android](https://play.google.com/store/apps/details?id=com.knocki.mobileapp).
+1. Open the Knocki Mobile App. It’s a free download on [iOS](https://apps.apple.com/app/id1238395440) and [Android](https://play.google.com/store/apps/details?id=com.knocki.mobileapp).
 2. Using the app, log-in or create a new Knocki account.
-3. From the app’s home screen, select a Knocki or [add a Knocki](https://support.knocki.com/hc/en-us/articles/12769368448659-How-Do-Add-a-Knocki-to-My-Account).
-4. On the app’s device screen, select a gesture or [add a gesture](https://support.knocki.com/hc/en-us/articles/360013333634-Creating-a-Gesture).
-5. Next, select the [add a task](https://support.knocki.com/hc/en-us/articles/12920956118291-How-do-I-Add-Tasks-to-a-Knocki) option.
+3. From the app’s home screen, select a Knocki or [add a Knocki](https://support.knocki.com/hc/articles/12769368448659).
+4. On the app’s device screen, select a gesture or [add a gesture](https://support.knocki.com/hc/articles/360013333634).
+5. Next, select the [add a task](https://support.knocki.com/hc/articles/12920956118291) option.
 6. Scroll down the task menu and select Home Assistant.
 7. Follow the in-app instructions to add the Home Assistant task.
 
 {% include integrations/config_flow.md %}
+
+{% configuration_basic %}
+Username:
+  description: "The email address of your Knocki account."
+Password:
+  description: "The password of your Knocki account."
+{% endconfiguration_basic %}
 
 ## Automation example
 
@@ -44,3 +38,13 @@ The **Knocki** {% term integration %} allows you to trigger your favorite automa
    - Select **State** as the type of entity change.
 4. Select **Add action** and choose whatever action(s) you’d like the automation to trigger.
 5. Finally, test the action by tapping the associated gesture pattern.
+
+## Data updates
+
+The integration keeps a WebSocket connection to the Knocki cloud, so knocks reach Home Assistant as they happen. It reads your triggers when it starts, and updates the list when you add or delete a trigger in the Knocki app.
+
+## Removing the integration
+
+This integration follows standard integration removal. No extra steps are required.
+
+{% include integrations/remove_device_service.md %}

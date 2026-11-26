@@ -1,32 +1,10 @@
 ---
-title: Starlink
 description: Instructions on how to integrate Starlink into Home Assistant.
-ha_category:
-  - Binary sensor
-  - Button
-  - Device tracker
-  - Network
-  - Sensor
-  - Switch
-  - Time
 ha_release: 2023.2
-ha_iot_class: Local Polling
-ha_config_flow: true
-ha_codeowners:
-  - '@boswelja'
 ha_domain: starlink
-ha_platforms:
-  - binary_sensor
-  - button
-  - device_tracker
-  - diagnostics
-  - sensor
-  - switch
-  - time
-ha_integration_type: integration
 ---
 
-The Starlink integration allows you to integrate your [Starlink](https://www.starlink.com/) into Home Assistant.
+The **Starlink** {% term integration %} allows you to integrate your [Starlink](https://www.starlink.com/) into Home Assistant.
 
 **Important:** If your Starlink is in bypass mode, you will need to open a route to it so that the local API can be accessed. Otherwise this integration will not work.
 
@@ -36,11 +14,12 @@ The Starlink integration allows you to integrate your [Starlink](https://www.sta
 
 - Ping - The ping that Starlink has measured, in ms
 - Ping drop rate - The percentage of failed ping requests (aka "dropped"). This is the inverse of "Uptime" in the Starlink app.
+- Signal quality - The signal quality reported by Dishy, as a percentage
 - Azimuth - The direction Dishy is facing in degrees
 - Elevation - Dishy's current elevation in degrees
+- Last restart - The time Starlink was last turned on
 - Uplink throughput - The amount of data being uploaded through user terminal
 - Downlink throughput - The amount of data being downloaded through user terminal
-- Last boot time - The time Starlink was last turned on
 - Upload - Total number of bytes uploaded through user terminal
 - Download - Total number of bytes downloaded through user terminal
 - Power - Last measured power, in W
@@ -65,12 +44,13 @@ The Starlink integration allows you to integrate your [Starlink](https://www.sta
 
 ### Buttons
 
-- Reboot - Reboots your Starlink system
+- Restart - Restart your user terminal
 
 ### Switches
 
 - Stowed - Controls whether Dishy is stowed
 - Sleep schedule - Controls whether Starlink will enter a power-saving sleep mode at a predefined schedule
+- Use Starlink positioning exclusively - Controls whether Dishy determines its position using Starlink satellites only, without GPS. This matches the **Use Starlink positioning exclusively** setting in the Starlink app and can help in areas where GPS is jammed or spoofed. Dishy turns this setting off when it restarts. To keep it on, create an automation that turns the switch back on when the **Last restart** sensor changes.
 
 ### Device trackers
 

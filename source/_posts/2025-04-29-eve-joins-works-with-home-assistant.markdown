@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Eve Joins Works With Home Assistant"
+title: "Eve Joins Works with Home Assistant"
 description: "They have had multiple Matter-over-Thread devices certified, including a cool outdoor weather sensor and smart heating devices."
 date: 2025-04-29 00:00:01
 date_formatted: "April 29, 2025"
@@ -22,7 +22,7 @@ Eve has had a wide range of devices Works with Home Assistant certified, all of 
 
 <p class="img"><img src='/images/blog/2025-04-eve/eve-weather.jpg' alt="Eve Weather"/>Built for outdoor weather sensing, Matter, and a cool segmented LCD display---sign me up</p>
 
-Matter can connect to devices over Ethernet and Wi-Fi networks, but it can also use [Thread](/integrations/thread/), which every Eve device being certified today uses. Thread devices can be directly connected to Home Assistant using a device like the [Connect ZBT-1](/connectzbt1), or can be connected to Home Assistant via an existing hub (Thread Border Router) you may already have from another [smart home ecosystem](/integrations/thread#google). Thread was designed around efficiency and is excellent for low-powered or battery-powered devices. Also, if your smart home balloons up to a hundred devices (or more 😅), you won't overwhelm your Wi-Fi router, as Thread operates independently.
+Matter can connect to devices over Ethernet and Wi-Fi networks, but it can also use [Thread](/integrations/thread/), which every Eve device being certified today uses. Thread devices can be directly connected to Home Assistant using a device like the [Connect ZBT-1](/connectzbt1), or can be connected to Home Assistant via an existing hub (Thread Border Router) you may already have from another [smart home ecosystem](/connectivity/thread/#google). Thread was designed around efficiency and is excellent for low-powered or battery-powered devices. Also, if your smart home balloons up to a hundred devices (or more 😅), you won't overwhelm your Wi-Fi router, as Thread operates independently.
 
 Eve isn't just a fan of Matter; they're actively shaping the standard. Their team is deeply involved with the development of Matter and the Connectivity Standards Alliance (CSA), and we were delighted to connect with them at the recent CSA meeting in Chicago. Their commitment runs so deep that Eve licenses its technology to help other manufacturers embrace Matter. In fact, fellow Works with Home Assistant partner [Motionblinds](/blog/2025/03/27/motionblinds-joins-wwha/) uses Eve's technology, proudly displaying "Powered by Eve" on their certified motors.
 
@@ -36,17 +36,7 @@ In case you didn't know, Works with Home Assistant differs from other certificat
 
 Eve has certified the following Matter-over-Thread enabled devices:
 
-- [Eve Door & Window](https://www.evehome.com/en/eve-door-window)
-- [Eve Energy Outlet](https://www.evehome.com/en/eve-energy-outlet)
-- [Eve Energy Outdoor](https://www.evehome.com/en/eve-energy-outdoor)
-- [Eve Energy](https://www.evehome.com/en/eve-energy)
-- [Eve Light Switch (U.S. & Canada)](https://www.evehome.com/en/eve-light-switch)
-- [Eve Dimmer Switch](https://www.evehome.com/en/eve-dimmer-switch)
-- [Eve Motion](https://www.evehome.com/en/eve-motion)
-- [Eve Custom Smart Blinds](https://www.evehome.com/en-us/eve-blinds-collection)
-- [Eve MotionBlinds Upgrade Kit](https://www.evehome.com/eve-motionblinds)
-- [Eve Thermo](https://www.evehome.com/en/eve-thermo)
-- [Eve Weather](https://www.evehome.com/en/eve-weather)
+{% include integrations/device_list.html brand="eve" %}
 
 ## Eve-rything You Need
 

@@ -11,11 +11,11 @@ Home Assistant Operating System.
 
 On an unsupported Home Assistant OS, Supervisor stops refreshing its update
 information. This means you will no longer receive updates for any component,
-including Home Assistant Core or Add-on updates.
+including Home Assistant Core or app (formerly known as add-ons) updates.
 
 ## The solution
 
-Since you've not updated your system in a while, we recommend to [create a backup](/common-tasks/general/#backups)
+Since you've not updated your system in a while, we recommend to [create a backup](/common-tasks/general/backups/)
 before updating your system. Make sure to download the backup or store it at
 a remote location.
 

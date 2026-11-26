@@ -4,6 +4,8 @@ title: "2022.2: Let's start streamlining!"
 description: "Starting 2022 with media and device tracker improvements, diagnostics, added states to scenes, and streamlining lots of things!"
 date: 2022-02-02 00:00:00
 date_formatted: "Februari 02, 2022"
+updated: 2026-11-24 00:00:00
+updated_formatted: "November 24, 2026"
 author: Franck Nijhof
 author_twitter: frenck
 comments: true
@@ -14,6 +16,10 @@ og_image: /images/blog/2022-02/social.png
 ---
 
 <a href='/integrations/#version/2022.2'><img src='/images/blog/2022-02/social.png' style='border: 0;box-shadow: none;'></a>
+
+{% note title="Update" %}
+From Home Assistant 2026.11, HACS is built into Home Assistant as the [Marketplace](/integrations/marketplace/). This post describes HACS as it was at time of writing.
+{% endnote %}
 
 I'm not sure if this is really fitting; it is February already... but since
 this is the first release of the year, I'm going to say it anyway:
@@ -247,9 +253,9 @@ Now the scene has a state; it also got logbook entries.
 ## Search in the configuration panel
 
 There is now a search in the top right of the configuration dashboard, which
-opens the [Quick Bar](/docs/tools/quick-bar/). This also works on mobile devices.
+opens the [Quick Bar](/docs/tools/quick-search/). This also works on mobile devices.
 
-It allows you to access and search for just about anything within
+It allows you to access and search forst about anything within
 Home Assistant. From accessing add-ons, configuration panels,
 and even entities and devices.
 
@@ -1015,7 +1021,7 @@ The following integrations are now available via the Home Assistant UI:
 
 ## If you need help...
 
-...don't hesitate to use our very active [forums](https://community.home-assistant.io/) or join us for a little [chat](https://discord.gg/c5DvZ4e).
+...don't hesitate to use our very active [forums](https://community.home-assistant.io/) or join us for a little [chat](https://discord.gg/home-assistant).
 
 Experiencing issues introduced by this release? Please report them in our [issue tracker](https://github.com/home-assistant/core/issues). Make sure to fill in all fields of the issue template.
 

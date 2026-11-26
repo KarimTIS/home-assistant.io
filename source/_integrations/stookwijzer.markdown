@@ -1,19 +1,7 @@
 ---
-title: Stookwijzer
 description: Instructions on how to use Stookwijzer data within Home Assistant
-ha_category:
-  - Environment
-  - Sensor
 ha_release: 2023.2
-ha_iot_class: Cloud Polling
-ha_codeowners:
-  - '@fwestenberg'
 ha_domain: stookwijzer
-ha_config_flow: true
-ha_platforms:
-  - diagnostics
-  - sensor
-ha_integration_type: service
 ---
 
 The **Stookwijzer** {% term integration %} queries the [Atlas Leefomgeving Stookwijzer](https://www.atlasleefomgeving.nl/stookwijzer) API for windspeed and air quality index. Based on these values, Stookwijzer advises people not to burn pallets or wood or use barbecues. This can help prevent health issues for people in the area.
@@ -29,56 +17,24 @@ Additionally, various sensor entities are provided:
 - **Windspeed**: Sensor containing the current windspeed at the selected location.
 - **Air Quality Index**: Sensor containing the air quality index at the selected location.
 
+The integration also provides an image entity:
+
+- **Map**: A map showing the current Stookwijzer advice areas around the selected location, with a legend of the advice codes. This entity is disabled by default.
+
 {% include integrations/config_flow.md %}
 
-## Action: Get Forecast
+{% configuration_basic %}
+Location:
+  description: "The location you want the Stookwijzer information for. Select it on the map. It defaults to your Home Assistant home location."
+{% endconfiguration_basic %}
 
-The `stookwijzer.get_forecast` action populates [response data](/docs/scripts/perform-actions#use-templates-to-handle-response-data)
-with a mapping of the Stookwijzer advice forecast.
-
-```yaml
-action: stookwijzer.get_forecast
-target:
-  config_entry_id: 12345
-response_variable: stookwijzer_forecast
-```
-
-The response data field contains the `forecast` field.
-`forecast` is a list of forecast advice entries at a given time:
-
-| Response data | Description                                                                 | Example                   |
-|--------------|-----------------------------------------------------------------------------|---------------------------|
-| `datetime`   | The time of the forecasted advice.                                         | 2025-01-14T14:00:00+00:00 |
-| `advice`     | The forecasted advice code.                                               | code_yellow               |
-| `final`      | Indicator whether the advice is final or can still change.                | True                      |
-
-{% details "Example action response" %}
-
-```yaml
-forecast:
-  - datetime: "2025-02-12T17:00:00+01:00"
-    advice: code_yellow
-    final: True
-  - datetime: "2025-02-12T23:00:00+01:00"
-    advice: code_yellow
-    final: True
-  - datetime: "2025-02-13T05:00:00+01:00"
-    advice: code_orange
-    final: False
-  - datetime: "2025-02-13T11:00:00+01:00"
-    advice: code_red
-    final: False
-```
-
-{% enddetails %}
+{% include integrations/actions.md %}
 
 ## Examples
 
 {% details "Example template sensor using get_forecast" %}
 
 Example template sensors containing the Stookwijzer forecast for 6 and 12 hours from now.
-
-{% raw %}
 
 ```yaml
 template:
@@ -87,8 +43,8 @@ template:
         hours: /1
     action:
       - action: stookwijzer.get_forecast
-        target:
-          entity_id: sensor.stookwijzer_advice_code
+        data:
+          config_entry_id: 1b4a46c6d0f3406c80d275f5b0c6483b
         response_variable: advice_forecast
     sensor:
       - name: Stookwijzer forecast 6 hours
@@ -105,6 +61,14 @@ template:
           timestamp: "{{ advice_forecast['forecast'][1]['datetime'] }}"
 ```
 
-{% endraw %}
-
 {% enddetails %}
+
+## Data updates
+
+The integration {% term polling polls %} the Stookwijzer API once an hour. The **Get forecast** action fetches the forecast from the API each time it runs.
+
+## Removing the integration
+
+This integration follows standard integration removal. No extra steps are required.
+
+{% include integrations/remove_device_service.md %}

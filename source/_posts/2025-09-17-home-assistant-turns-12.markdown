@@ -4,6 +4,8 @@ title: "Happy 12th Birthday, Home Assistant!"
 description: "This year we’re sharing some stories from the community and some stats about our growth."
 date: 2025-09-17 00:00:01
 date_formatted: "September 17, 2025"
+updated: 2026-11-24 00:00:00
+updated_formatted: "November 24, 2026"
 author: Missy Quarry
 comments: true
 categories: Announcements
@@ -11,6 +13,10 @@ og_image: /images/blog/2025-09-12th-anniversary/art.webp
 ---
 
 <img src='/images/blog/2025-09-12th-anniversary/art.webp' style='border: 0;box-shadow: none;' alt="Home Assistant 12th Anniversary">
+
+{% note title="Update" %}
+From Home Assistant 2026.11, HACS is built into Home Assistant as the [Marketplace](/integrations/marketplace/). This post describes HACS as it was at time of writing.
+{% endnote %}
 
 Every September, we celebrate the anniversary of Home Assistant’s first PR in 2013 – for our 12th birthday, we’re going all in on community again. Last month, we asked for submissions on how Home Assistant helps you, and today we will highlight our favorites! We will also take a look at all the cool milestones over the past year in the project, thanks to contributions from you all, and the new things coming up for the community. <!--more-->
 
@@ -42,7 +48,7 @@ In my opinion, the best thing about Home Assistant is its flexibility - you can 
 
 - Inspired by [PowerDisplayESPHome](https://github.com/johannyren/PowerDisplayESPHome/tree/main), JannickBlmndl [made an LED matrix](https://gitlab.com/JannickBlmndl/ESPHome-Dynamic-Prices-LEDMatrix) that helps their household be more sustainable by being energy flexible. It displays the live energy prices from their energy provider. 📊
 
-- [Tano Spirits](https://www.youtube.com/@TanoSpirits) in Melbourne, Australia, uses Home Assistant to automate their Japanese Shochu distillery, inspired by the brewing automations at [Little Island Brewing Co](https://libc.co/brewing-process/) in Singapore. 🍻
+- [Tano Spirits](https://www.youtube.com/@TanoSpirits) in Melbourne, Australia, uses Home Assistant to automate their Japanese Shochu distillery, inspired by a small brewing company in Singapore. 🍻
 
 - Several years ago, HillPhantom found that Home Assistant wasn’t quite ready for him. Over the past year, though, he’s now got Ollama set up with his Home Assistant Voice Preview Edition and has been building guides on how to make your own [mmWave radar sensors in Home Assistant](https://www.youtube.com/watch?v=Gb-4l93st8A). 👋🏻
 

@@ -6,6 +6,7 @@ date: 2024-12-19
 og_image: /images/voice-pe/og.jpg
 frontpage: true
 frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
+frontpage_gradient_color: "#183859"
 ---
 <link rel="preload" fetchpriority="high" as="image" href="/images/voice-pe/gradient.webp" type="image/webp">
 <link rel="stylesheet" href="/voice-pe/styles.css" />
@@ -25,10 +26,11 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
         <a href="#features">Features</a>
         <a href="#specs">Specs</a>
         <a href="#faq">FAQ</a>
-        <a href="https://support.nabucasa.com/hc/en-us/categories/24451727188125-Home-Assistant-Voice-Preview-Edition"
+        <a href="https://support.nabucasa.com/hc/categories/24451727188125"
           target="_blank" rel="noopener">Docs</a>
         <a href="#" class="cta buy">Buy now</a>
       </div>
+      <a href="#" class="cta buy mobile-buy" data-context="navbar">Buy now</a>
       <div class="burger">
         <div class="burger__icon"></div>
       </div>
@@ -39,9 +41,8 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
           <a href="#features">Features</a>
           <a href="#specs">Specs</a>
           <a href="#faq">FAQ</a>
-          <a href="https://support.nabucasa.com/hc/en-us/categories/24451727188125-Home-Assistant-Voice-Preview-Edition"
+          <a href="https://support.nabucasa.com/hc/categories/24451727188125"
             target="_blank" rel="noopener">Docs</a>
-          <a href="#" class="cta buy">Buy now</a>
         </div>
       </div>
     </div>
@@ -58,7 +59,9 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               <span class="large"><span class="f-in">Bring</span><br> <span class="f-in">choice</span></span>
               <span class="small"><span class="hero-c-in">to</span> <span class="hero-c-in">voice</span></span>
             </h1>
-            <div class="tagline">The best way to get started with voice</div>
+            <div class="tagline">
+              <span>The best way to get started with voice</span>
+            </div>
           </div>
 
           <div class="product">
@@ -68,7 +71,12 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               alt="Top view of the Home Assistant Voice Preview Edition">
           </div>
         </div>
+
+        <div class="logos">
+          {% include collaboration/ohf-x-nabu-casa.html %}
+        </div>
       </div>
+      
     </div>
   </section>
   <section id="timeline" data-event="0">
@@ -102,10 +110,10 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               <div class="event">
                 <div class="event-details">
                   <div class="when">April 2023</div>
-                  <div class="title h4">Home Assistant Cloud gets voice</div>
+                  <div class="title h4">Home Assistant Link gets voice</div>
                 </div>
                 <div class="event-content">
-                  Home Assistant Cloud adds speech-to-text and text-to-speech capabilities, enabling low-powered
+                  Home Assistant Link adds speech-to-text and text-to-speech capabilities, enabling low-powered
                   hardware
                   to run Assist. More languages and features are added.
                 </div>
@@ -208,24 +216,40 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
       <div class="wrapper">
         <div class="content">
           <div class="subtitle-medium">Preview the future of voice for just</div>
-          <div class="fs-price">&#x24;69 / &#8364;59 <span>*</span></div>
+          <div class="fs-price"><sub class="currency-symbol">&dollar;</sub>69 / 59<sub class="currency-symbol">&euro;</sub> <span>*</span></div>
         </div>
       </div>
       <div class="wrapper outer">
         <div class="image-overlay">
-          <img src="/images/voice-pe/vpe-overlay.webp" loading="lazy"
+          <img src="/images/voice-pe/vpe-overlay-bg.webp" loading="lazy"
             alt="Front view of the Voice Preview Edition showing the speaker holes">
           <div class="wrapper">
             <a class="button secondary buy">Buy now</a>
-            <small>* Recommended MSRP. Prices differ between regions due to varying local market costs and conditions,
-              and subject to individual retailers.</small>
-            <img src="/images/collaboration/mobile-on-light.png" class="nc-collaboration mobile">
-            <img src="/images/collaboration/desktop-on-light.png" class="nc-collaboration desktop">
+            <small>* Recommended MSRP. USD prices exclude taxes, while EUR prices include applicable taxes.
+              Prices differ between regions due to varying local market costs and conditions, and are subject to individual retailers.</small>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <section id="collaboration">
+    <div class="bg-none">
+      <div class="grid"></div>
+    </div>
+    <div class="container">
+        <div class="collaboration-card">
+            <div class="collaboration-card-inner">
+                <div class="partner"><img src="/images/collaboration/nabu-casa--dark.svg" alt="Nabu Casa Logo"><img src="/images/collaboration/open-home-foundation--dark.svg" alt="Open Home Foundation Logo"></div>
+                <h3>Every purchase supports the Open Home</h3>
+                <p class="body-medium">As a commercial partner of the <a href="https://www.openhomefoundation.org/">Open Home Foundation</a>, <a href="https://www.nabucasa.com/">Nabu Casa</a> contributes the majority of net profits from licensed Home Assistant products to supporting the foundation, and its projects like Home Assistant, ESPHome, and Music Assistant.</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  {% include custom/press.html product="voice-pe" id="press" class="press-cards--voice-pe" columns=3 %}
+
   <section id="controls" data-index="0">
     <div class="wrapper-outer">
       <div class="bg-navy-gradient">
@@ -521,8 +545,8 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
                 <div class="cards">
                   <div class="graphic-card">
                     <div class="h-line"></div>
-                    <span>Home Assistant Cloud</span>
-                    <p>Your voice is processed privately on Home Assistant Cloud, allowing Assist to run very accurately
+                    <span>Home Assistant Link</span>
+                    <p>Your voice is processed privately on Home Assistant Link, allowing Assist to run very accurately
                       on low-powered hardware.</p>
                   </div>
                 </div>
@@ -622,7 +646,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
             </div>
             <div class="supported-card cloud warning" data-state="-1">
               <div class="heading">
-                <span>Home Assistant Cloud</span>
+                <span>Home Assistant Link</span>
               </div>
               <div class="description"></div>
             </div>
@@ -674,7 +698,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
           <p class="subtitle">Be part of building Assist and preview the future of voice control in the home.</p>
         </div>
         <div class="buttons">
-          <a target="_blank" href="https://support.nabucasa.com/hc/en-us/sections/24980381645213" rel="noopener"
+          <a target="_blank" href="https://support.nabucasa.com/hc/sections/24980381645213" rel="noopener"
             class="button clear clear-secondary">Explore resources</a>
           <a target="_blank" href="https://community.home-assistant.io/" rel="noopener"
             class="button clear clear-navy">Join our
@@ -926,14 +950,14 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
                 <div class="faq-item-content-transform-wrapper">
                   <div class="faq-item-content">
                     <p>Yes, provided your language is supported. For some languages, you can set up Assist and your
-                      Voice Preview Edition to use a Focused Local model, which uses Speech-to-Phrase add-on. It can run
+                      Voice Preview Edition to use a Focused Local model, which uses the Speech-to-Phrase app (formerly known as an add-on). It can run
                       locally and accurately on lower-power hardware, by generating a local speech-to-text model
                       specifically for your Home Assistant installation. It is limited to predefined sentences aimed at
                       controlling your home, but not able to process general speech. For instance, it could turn on a
                       device, but would not be able to add something to your shopping list.</p>
 
                     <p>For other languages, Speech-to-Phrase may not be supported, which will require Fully Local
-                      speech-to-text solution, such as the Whisper add-on. Fully local speech-to-text requires powerful
+                      speech-to-text solution, such as the Whisper app (formerly known as an add-on). Fully local speech-to-text requires powerful
                       hardware to be accurate and responsive. If you wish to use OpenAI’s Whisper, we recommend using at
                       least an Intel N100 or equivalent processor. This will allow you to use the Whisper Base model for
                       speech-to-text locally. This model runs reasonably fast for languages that have large public
@@ -947,7 +971,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
           </div>
           <div class="faq-item">
             <div class="faq-item-heading">
-              <div class="faq-item-heading-title">Do I need Home Assistant Cloud?</div>
+              <div class="faq-item-heading-title">Do I need Home Assistant Link?</div>
               <div class="faq-item-heading-icon">
                 <div class="button-more">
                   <div class="plus"></div>
@@ -958,11 +982,11 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               <div class="faq-item-content-animation">
                 <div class="faq-item-content-transform-wrapper">
                   <div class="faq-item-content">
-                    <p>You do not need Home Assistant Cloud. However, for some languages, we believe that Home Assistant
-                      Cloud provides the best experience. There are languages that are not supported by the local
+                    <p>You do not need Home Assistant Link. However, for some languages, we believe that Home Assistant
+                      Link provides the best experience. There are languages that are not supported by the local
                       speech-to-text models we leverage (either our focused local Speech-to-Phrase model, or the fully
                       local Whisper by OpenAI), but are well-supported by the speech processing used by Home Assistant
-                      Cloud.</p>
+                      Link.</p>
                   </div>
                 </div>
               </div>
@@ -970,7 +994,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
           </div>
           <div class="faq-item">
             <div class="faq-item-heading">
-              <div class="faq-item-heading-title">How does Home Assistant Cloud maintain my privacy with voice?</div>
+              <div class="faq-item-heading-title">How does Home Assistant Link maintain my privacy with voice?</div>
               <div class="faq-item-heading-icon">
                 <div class="button-more">
                   <div class="plus"></div>
@@ -981,13 +1005,13 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               <div class="faq-item-content-animation">
                 <div class="faq-item-content-transform-wrapper">
                   <div class="faq-item-content">
-                    <p>Home Assistant Cloud has been designed from the ground up to uphold the core values of the Home
-                      Assistant project, with privacy being one of our highest priorities. Home Assistant Cloud
+                    <p>Home Assistant Link has been designed from the ground up to uphold the core values of the Home
+                      Assistant project, with privacy being one of our highest priorities. Home Assistant Link
                       leverages the enterprise services of Microsoft Azure for its industry-leading speech processing,
                       which unlike many consumer offerings, is bound by commercial terms and conditions and <a
                         href="https://learn.microsoft.com/en-us/legal/cognitive-services/speech-service/speech-to-text/data-privacy-security#data-storage-and-retention"
                         target="_blank" rel="noopener">does not retain or store your data</a>. In addition, Home
-                      Assistant Cloud itself does not keep any record of
+                      Assistant Link itself does not keep any record of
                       your voice, data, or commands.</p>
                   </div>
                 </div>
@@ -1022,7 +1046,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
           </div>
           <div class="faq-item" id="faq-language-not-supported-cloud">
             <div class="faq-item-heading">
-              <div class="faq-item-heading-title">Why is my language listed as “not supported” by Home Assistant Cloud?
+              <div class="faq-item-heading-title">Why is my language listed as “not supported” by Home Assistant Link?
               </div>
               <div class="faq-item-heading-icon">
                 <div class="button-more">
@@ -1034,12 +1058,12 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
               <div class="faq-item-content-animation">
                 <div class="faq-item-content-transform-wrapper">
                   <div class="faq-item-content">
-                    <p>There can be a number of reasons why a language is not supported by Home Assistant Cloud, but
+                    <p>There can be a number of reasons why a language is not supported by Home Assistant Link, but
                       most often it is because the <a
-                        href="https://developers.home-assistant.io/docs/voice/intent-recognition/supported-languages"
+                        href="https://contributors.home-assistant.io/translate/voice/languages/"
                         target="_blank" rel="noopener">sentences</a> have not been translated by a member of our
                       community. If you would like to help translate these sentences and have your language added,
-                      please <a href="https://developers.home-assistant.io/docs/voice/intent-recognition/contributing"
+                      please <a href="https://contributors.home-assistant.io/translate/voice/contributing/"
                         target="_blank" rel="noopener">visit here</a>.</p>
                   </div>
                 </div>
@@ -1087,7 +1111,7 @@ frontpage_image: /images/frontpage/voice-pe-frontpage.jpg
                 <div class="faq-item-content-transform-wrapper">
                   <div class="faq-item-content">
                     <p>Yes, Home Assistant can be configured to use any speech-to-text integration that supports the
-                      Wyoming protocol. The most commonly used fully local speech-to-text add-on available for Home
+                      Wyoming protocol. The most commonly used fully local speech-to-text app available for Home
                       Assistant users is OpenAI’s Whisper. This has mixed results; specifically, it lacks support for
                       some languages and is hardware-intensive.</p>
                     <p>Our alternative speech-to-text model, <a href="https://github.com/OHF-Voice/speech-to-phrase"

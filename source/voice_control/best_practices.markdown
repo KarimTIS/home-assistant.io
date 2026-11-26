@@ -1,5 +1,6 @@
 ---
 title: Best practices with Assist
+description: "Tips to get the most out of Assist: which devices to expose, how to name your areas and entities, and small tweaks that make voice commands feel natural."
 related:
   - docs: /voice_control/android
     title: Assist on Android devices
@@ -10,22 +11,21 @@ related:
   - docs: /voice_control/builtin_sentences
     title: Sentences starter kit
   - url: https://www.nabucasa.com/config/
-    title: Home Assistant Cloud
-  - url: https://support.nabucasa.com/hc/en-us/categories/24451727188125-Home-Assistant-Voice-Preview-Edition
+    title: Home Assistant Link
+  - url: https://support.nabucasa.com/hc/categories/24451727188125
     title: Voice Preview Edition
 ---
-There are a few things you should do to get the most out of the voice assistant experience.
+Voice control feels effortless when it is set up well, and frustrating when it is not. The good news is that getting Assist to feel natural mostly comes down to a few simple choices: which devices it can see, how things are named, and how your home is organized into areas. This page collects the small habits that make a big difference.
 
-Using Assist consists of saying supported commands while targeting exposed devices and entities. So essentially:
-
-- You control what data Assist has access to, and what it can control.
-- Every entity in Home Assistant can be exposed or not to Assist.
+In Home Assistant, you decide what Assist has access to. Assist can only see and control the entities that you expose to it. There's one exception: a {% term "conversation agent" %} with the **Home Assistant** set of {% term "AI tools" %} selected can reach all entities. This includes entities that you never exposed or stopped exposing. For details, refer to [Sets of AI tools](/integrations/llm/#sets-of-ai-tools). Home Assistant exposes common devices as you add them. Examples are lights and switches. Locks and alarm control panels stay unexposed until you expose them yourself. Garage doors and gates are covers, so Home Assistant exposes them automatically. You can change this for every entity. For details, refer to [what Home Assistant exposes automatically](/voice_control/voice_remote_expose_devices/#entities-that-are-exposed-automatically).
 
 Some best practices we recommend to have an efficient setup are:
 
 ### Expose (the minimum) entities
 
 Learn how in [Exposing your entities to Assist](/voice_control/voice_remote_expose_devices/).
+
+Home Assistant exposes some new entities to Assist automatically. If you want to decide on every entity yourself, [turn off **Expose new entities**](/voice_control/voice_remote_expose_devices/#changing-expose-new-entities).
 
 It might be tempting to expose all entities to Assist, but doing so will come with a performance penalty. The more entity names and aliases the parser will have to go through, the more time it will spend matching. And if you’re using a LLM-based conversation agent, it will incur a higher cost per request, due to the larger context size. Only expose the bare minimum you know you are going to use with voice assistants.
 
@@ -39,11 +39,7 @@ Assist relies heavily on entity names, domains, and areas. Below you will find t
 So make sure your devices and entities are correctly assigned to areas, and your areas are correctly assigned to floors.
 Learn how [here](/voice_control/assign_areas_floors/).
 
-Not having good ways to address entities in common speech will greatly hinder your voice experience with Assist. You can expect to have a hard time asking Assist to “turn on Tuya Light Controller 0E54B1 Light 1”. You should therefore name your devices and entities logically, using a schema such as `<area> [<identifier_or_descriptor>] [<domain>].`
-
-For example, `light.living_room_lamp` might be the entity ID of `Living room lamp`. `Kitchen light` would be enough for the `light.kitchen` if you only have one light fixture in that room.
-
-Note that this convention is only a recommendation, actual naming of your devices and entities might depend on your language or personal preference.
+Give your devices and entities short names that are easy to remember. A phrase like “Turn on Tuya Light Controller 0E54B1 Light 1” is hard to say. Name each device and entity for what it is, without the area. For example, name a light `Lamp` instead of `Living room lamp`. Assist takes the area from your sentence or from the voice satellite you're talking to. For more tips, refer to the [naming recommendations](/docs/configuration/customizing-entities/#recommendations-on-entity-naming-and-related-elements).
 
 If you ever find yourself mentioning a certain device or entity in a certain way, make sure to [add that as an alias](/voice_control/aliases/), as it would probably be the most natural way to refer to the entity.
 
@@ -62,9 +58,9 @@ Assist leverages domains to define the proper verbs for the action being taken (
 
 It might not bother anyone to have a `switch.main_valve` in the UI instead of a valve, but you can’t ask Assist to open the main valve if the main valve is a switch. If it was a `valve.main_valve`, then the former sentence would have worked without a hitch.
 
-To prevent this, you can use either the [Change device type of a switch integration](/integrations/switch_as_x/) or create virtual entities using [template](/integrations/template/) entities or Generic X (e.g. [generic thermostat](/integrations/generic_thermostat/)).
+To prevent this, you can use either the [Change device type of a switch integration](/integrations/switch_as_x/) or create virtual entities using [template](/integrations/template/) entities or Generic X, such as the [generic thermostat](/integrations/generic_thermostat/).
 
-The same thing applies to some device classes. For example, if you have a `binary_sensor.bedroom_window` with no `device_class` set, you can only ask whether the bedroom window is on, which doesn’t even make sense. To be able to ask if it’s open, you need to set a proper `device_class` to that `binary_sensor`, i.e. window.
+The same thing applies to some device classes. For example, if you have a `binary_sensor.bedroom_window` with no `device_class` set, you can only ask whether the bedroom window is on, which doesn’t even make sense. To be able to ask if it’s open, you need to set a proper `device_class` to that `binary_sensor`, such as `window`.
 
 
 ## Ready?
@@ -76,6 +72,13 @@ Once your devices and entities are correctly
 It is now time to speak to your device.
 
 To talk to Assist, you can either use your phone or a custom device (and use their microphone and speaker). Check here how to do it on [Android](/voice_control/android/) or [Apple](/voice_control/apple/) devices.
+
+### Let AI run your scripts
+
+You can use a conversation agent that uses AI. To add one, set up an [AI integration](/integrations/category/ai_voice/ai_models/). Examples are OpenAI, Google Gemini, and Ollama for local models. Each script that you expose to Assist becomes an {% term "AI tool" %} in the [**Device control** set](/integrations/llm/#sets-of-ai-tools). If **Device control** is selected in the **AI tools** option of the conversation agent, it can call the script directly. Home Assistant never exposes scripts automatically, so expose the scripts that you want it to use. This is more powerful than entity exposure, but it requires a bit more care: without a good description, the conversation agent doesn't know the script exists or when to use it.
+
+Find out [how to write these descriptions](/voice_control/exposing_scripts_to_llms/) when you're ready to expose your scripts.
+
 
 ### Some examples to get you started
 

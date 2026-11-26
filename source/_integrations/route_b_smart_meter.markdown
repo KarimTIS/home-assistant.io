@@ -1,19 +1,7 @@
 ---
-title: Smart Meter B Route
 description: Integrate your Smart Meter using B Route.
-ha_category:
-  - Energy
-  - Sensor
 ha_release: '2025.10'
-ha_iot_class: Local Polling
-ha_codeowners:
-  - '@SeraphicRav'
 ha_domain: route_b_smart_meter
-ha_platforms:
-  - sensor
-ha_config_flow: true
-ha_integration_type: device
-ha_quality_scale: bronze
 ---
 
 The **Smart Meter B Route** {% term integration %} allows you to access the data of your smart meter using the B Route protocol.
@@ -27,14 +15,25 @@ This integration enables you to access and monitor your household energy consump
 Even if you have a contract with a new power provider, you can still use this service by applying to the regional utility company (for example, TEPCO in Tokyo).
 Ensure that your power supply is not a bulk power supply for an apartment building.
 
-1. Compatible USB dongle: 
-    - Tested with the Wi-SUN USB dongle from [Ratoc Systems](https://www.ratocsystems.com/products/wisun/usb-wisun/rs-wsuha/).
+1. Compatible USB dongles (tested with):
+    - Wi-SUN USB dongle from [Ratoc Systems](https://www.ratocsystems.com/products/wisun/usb-wisun/rs-wsuha/).
+    - Wi-SUN Module RL7023 Stick-D/DSS from [Tessera Technology Inc.](https://www.tessera.co.jp/product/rfmodul/rl7023stick-d_dss.html).
+    - Wi-SUN Module RL7023 Stick-D/IPS from [Tessera Technology Inc.](https://www.tessera.co.jp/product/rfmodul/rl7023stick-d_ips.html) (Production ended).
 2. [B Route credentials from your utility company](#obtaining-b-route-credentials).
-3. Smart meter: 
-    - A smart meter that supports the B Route protocol. 
+3. Smart meter:
+    - A smart meter that supports the B Route protocol.
     - If you are renting but do not have a smart meter equipped, you will need to contact your house management company, as the installation is free but may require permission.
 
 {% include integrations/config_flow.md %}
+
+{% configuration_basic %}
+Device:
+  description: "The Wi-SUN USB dongle, chosen from the USB serial devices Home Assistant finds. A dongle that Home Assistant discovered is already selected."
+B Route ID:
+  description: "The B Route ID from your utility company. See [Obtaining B Route credentials](#obtaining-b-route-credentials)."
+Password:
+  description: "The B Route password from your utility company."
+{% endconfiguration_basic %}
 
 ### Signal reach
 
@@ -79,6 +78,10 @@ To get your monthly cost data, you can use the [template sensor](/integrations/t
 {% endif %}
 {% endraw %}
 ```
+
+## Data updates
+
+The integration {% term polling polls %} the smart meter every 5 minutes.
 
 ## Removing the {% term integration %}
 

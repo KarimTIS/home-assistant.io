@@ -9,7 +9,7 @@ related:
   - docs: /voice_control/create_wake_word/
     title: Create your own wake words
   - docs: /voice_control/voice_remote_cloud_assistant/
-    title: Creating a Cloud assistant
+    title: Creating an assistant with Home Assistant Link
   - docs: /voice_control/troubleshooting/
     title: General troubleshooting section for Assist
   - docs: /voice_control/voice_remote_local_assistant
@@ -29,11 +29,11 @@ your smart home. Issue commands and get responses!
 ## Prerequisites
 
 - Home Assistant 2023.10 or later, installed with the Home Assistant Operating System. If you do not have Home Assistant installed yet, refer to the [installation page](/installation/) for instructions.
-- [Home Assistant Cloud](/voice_control/voice_remote_cloud_assistant/) or a manually configured [Assist Pipeline](/voice_control/voice_remote_local_assistant)
+- [Home Assistant Link](/voice_control/voice_remote_cloud_assistant/) or a manually configured [Assist Pipeline](/voice_control/voice_remote_local_assistant)
 - Have [enabled a wake word](/voice_control/install_wake_word_add_on/) for your voice assistant
 - The password to your 2.4&nbsp;GHz Wi-Fi network
 - Chrome (or a Chromium-based browser like Edge) on desktop (not Android/iOS)
-- [M5Stack ATOM Echo Development Kit](https://shop.m5stack.com/products/atom-echo-smart-speaker-dev-kit?ref=NabuCasa)
+- [M5Stack ATOM Echo Development Kit](https://shop.m5stack.com/products/atom-echo-smart-speaker-dev-kit)
 - USB-C cable to connect the ATOM Echo
 
 ## Installing the software onto the ATOM Echo
@@ -43,15 +43,15 @@ Before you can use this device with Home Assistant, you need to install a bit of
 1. Make sure this page is opened in a Chromium-based browser on a desktop. It does not work on a tablet or phone.
    - Select the **Connect** button below. If your browser does not support web serial, you will see a warning instead of a button.
 
-      <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+      <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module" integrity="sha384-2Ea4WL8tjFb0qQKUqBoX45KlPVoUgL+Z3zUqsD0MHmtJ3faDbfNyZulLg/LfYDUZ" crossorigin="anonymous"></script>
       <esp-web-install-button manifest="https://firmware.esphome.io/wake-word-voice-assistant/m5stack-atom-echo/manifest.json"></esp-web-install-button>
-   - **For advanced users**: The configuration file is available on [GitHub](https://github.com/esphome/wake-word-voice-assistants/blob/main/m5stack-atom-echo/m5stack-atom-echo.yaml).
+   - **To customize the configuration**: The configuration file is available on [GitHub](https://github.com/esphome/wake-word-voice-assistants/blob/main/m5stack-atom-echo/m5stack-atom-echo.yaml).
 
 2. To connect the ATOM Echo to your computer, follow these steps:
    - In the pop-up window, view the available ports.
    - Plug the USB-C cable into the ATOM Echo and connect it to your computer.
    - In the pop-up window, there should now appear a new entry. Select this USB serial port and select **Connect**.
-   - **Troubleshooting**: If no new port shows, your system may be missing a driver. Close the pop-up window.
+   - Troubleshooting: If no new port shows, your system may be missing a driver. Close the pop-up window.
      - In the dialog, select the CH342 driver, install it, then **Try again**.
    ![Open My link](/images/assist/esp32-atom-flash-no-port.png)
 3. Select **Install Voice Assistant**, then **Install**.
@@ -94,8 +94,6 @@ Before you can use this device with Home Assistant, you need to install a bit of
    - Under **M5Stack ATOM Echo**, select **1 device**. Under **Configuration**, change the **Finished speaking detection**.
    - This setting defines how much silence is needed for Assist to find you're done speaking and it can start processing your command.
 
-     ![Open My link](/images/assist/esp32-atom_silence_detection_01.png)
-
 ## Troubleshooting
 
 Are things not working as expected?
@@ -109,7 +107,7 @@ If you no longer use the device or want to pass it on to someone else, you can r
 1. Make sure this page is opened in a Chromium-based browser on a desktop. It does not work on a tablet or phone.
    - Select the **Connect** button below. If your browser does not support web serial, you will see a warning instead of a button.
 
-      <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+      <script type="module" src="https://unpkg.com/esp-web-tools@10.2.1/dist/web/install-button.js?module" integrity="sha384-2Ea4WL8tjFb0qQKUqBoX45KlPVoUgL+Z3zUqsD0MHmtJ3faDbfNyZulLg/LfYDUZ" crossorigin="anonymous"></script>
       <esp-web-install-button manifest="https://firmware.esphome.io/wake-word-voice-assistant/m5stack-atom-echo/manifest.json"></esp-web-install-button>
 
 2. To connect the ATOM Echo to your computer, follow these steps:
@@ -117,5 +115,5 @@ If you no longer use the device or want to pass it on to someone else, you can r
    - Plug the USB-C cable into the ATOM Echo and connect it to your computer.
    - In the pop-up window, there should now appear a new entry. Select this USB serial port and select **Connect**.
 3. In the dialog, select **Erase user data**.
-   - **Result**: Your Wi-Fi credentials are deleted from the device.
+   - Result: Your Wi-Fi credentials are deleted from the device.
    - The firmware stays on the device.

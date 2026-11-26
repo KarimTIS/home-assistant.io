@@ -1,19 +1,7 @@
 ---
-title: PrusaLink
 description: Instructions on monitoring Prusa 3D printers using PrusaLink.
-ha_category:
-  - 3D printing
-ha_iot_class: Local Polling
 ha_release: '2022.9'
-ha_config_flow: true
 ha_domain: prusalink
-ha_integration_type: integration
-ha_platforms:
-  - binary_sensor
-  - button
-  - camera
-  - sensor
-ha_dhcp: true
 related:
   - url: https://help.prusa3d.com/article/prusa-connect-and-prusalink-explained_302608
     title: PrusaLink documentation
@@ -25,7 +13,7 @@ related:
 
 The **PrusaLink** {% term integration %} allows you to monitor your [Prusa 3D printer](https://www.prusa3d.com) and its progress with your Home Assistant installation. This integration works with Prusa MINI/MINI+, Prusa MK3.9/MK4, Prusa XL, Prusa CORE One, and with the older Raspberry Pi-based Prusa MK2.5/MK3.
 
-This integration has been updated to utilize the latest v1 API endpoints, which require firmware version 4.7.0 or later. If you own a Prusa MINI/MINI+, please make sure your printer is running firmware 5.1.0 or a more recent version. Firmware versions 4.7.x and 5.0.x are not available for this model. The Prusa CORE One works with its default firmware. For Prusa MK2.5/MK3, this integration requires PrusaLink version 0.7.2 or later.
+This integration has been updated to use the latest v1 API endpoints, which require firmware version 4.7.0 or later. If you own a Prusa MINI/MINI+, please make sure your printer is running firmware 5.1.0 or a more recent version. Firmware versions 4.7.x and 5.0.x are not available for this model. The Prusa CORE One works with its default firmware. For Prusa MK2.5/MK3, this integration requires PrusaLink version 0.7.2 or later.
 
 Firmware update guides can be found here:
 
@@ -49,3 +37,22 @@ Firmware update guides can be found here:
  - Use the **username** and **password** you entered during the initial PrusaLink setup (not the API key).
 
 {% include integrations/config_flow.md %}
+
+{% configuration_basic %}
+Host:
+  description: "The IP address or hostname of your printer. If you leave out `http://` or `https://`, the integration uses `http://`."
+Username:
+  description: "The PrusaLink username. It defaults to `maker`, the fixed username on some models. On the MK2.5 and MK3, use the username from your PrusaLink setup."
+Password:
+  description: "The PrusaLink password. Some models call it **API key**. On the MK2.5 and MK3, use the password from your PrusaLink setup, not the API key."
+{% endconfiguration_basic %}
+
+## Data updates
+
+The integration {% term polling polls %} the printer every 30 seconds. After you press one of its job buttons, such as pause or resume, it polls every 5 seconds for the next 30 seconds, so the new state shows quickly.
+
+## Removing the integration
+
+This integration follows standard integration removal. No extra steps are required.
+
+{% include integrations/remove_device_service.md %}

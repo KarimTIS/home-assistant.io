@@ -3,21 +3,30 @@ title: Eltako
 description: Connect and control your Eltako Matter devices using the Matter integration
 ha_release: '2025.10'
 ha_iot_class: Local Push
-ha_category:
-  - Switch
+ha_categories:
+  - plugs_switches
+  - lighting
+  - blinds_curtains
 ha_domain: eltako
 ha_integration_type: brand
+works_with:
+  - matter
 ha_platforms:
   - switch
 ha_iot_standard: matter
 ha_brand: true
 ---
 
-[Eltako](https://www.eltako.com) is committed to making sure their products are up-to-date and ready to use in Home Assistant.
 
-Eltako Matter devices work locally and integrate seamlessly with the Matter integration in Home Assistant. As all connectivity is happening locally, status updates and controlling your devices happen instantly in Home Assistant.
+{% include integrations/wwha.md url="https://www.eltako.com" name="Eltako" %}
 
-{% my add_matter_device badge domain=page.ha_domain %}
+## Works with Home Assistant certified devices
 
-[Learn more about Matter in Home Assistant.](/integrations/matter/)
+{% include integrations/device_list.html brand="eltako" %}
 
+## Other supported devices
+
+In addition to the certified devices, the following devices are also supported:
+
+- [4-channel-remote FMH4S](https://www.eltako.com/en/catalog/products/281/fmh4s-an) (via [EnOcean add-on](https://www.eltako.com/en/catalog/products/1762/eoa64))
+- [Door / window sensor FPE-1](https://www.eltako.com/en/catalog/products/483/fpe-1) (via [EnOcean add-on](https://www.eltako.com/en/catalog/products/1762/eoa64))

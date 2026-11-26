@@ -8,6 +8,8 @@ related:
     title: Themes
   - docs: /dashboards/cards/
     title: Dashboard cards
+  - docs: /dashboards/naming/
+    title: Card naming
 ---
 
 The gauge card is a basic card that allows visually seeing sensor data.
@@ -22,9 +24,9 @@ Screenshot of the gauge card.
 Screenshot of the gauge card in needle mode.
 </p>
 
-{% include dashboard/edit_dashboard.md %}
-
 All options for this card can be configured via the user interface.
+
+{% include dashboard/edit_dashboard.md %}
 
 ## YAML configuration
 
@@ -45,8 +47,8 @@ attribute:
   type: string
 name:
   required: false
-  description: Name of gauge entity.
-  type: string
+  description: Overwrites the default name of the entity. Can be a string, or a name configuration object. See [naming documentation](/dashboards/naming/).
+  type: [string, map, list]
   default: Entity name
 unit:
   required: false
@@ -106,6 +108,10 @@ segments:
       required: false
       description: Label of the segment. This will be shown instead of the value.
       type: string
+color:
+  required: false
+  description: Color of the gauge. Ignored when severity or segments is provided. May be any CSS color declaration like "red", "#0000FF" or "rgb(255, 120, 0)".
+  type: string
 tap_action:
   required: false
   description: Action taken on card tap. See [action documentation](/dashboards/actions/#tap-action).
@@ -117,7 +123,7 @@ hold_action:
 double_tap_action:
   required: false
   description: Action taken on card double tap. See [action documentation](/dashboards/actions/#double-tap-action).
-  type: map      
+  type: map
 {% endconfiguration %}
 
 ### Examples

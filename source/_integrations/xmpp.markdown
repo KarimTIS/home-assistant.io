@@ -1,28 +1,17 @@
 ---
-title: Jabber (XMPP)
-description: Instructions on how to add Jabber (XMPP) notifications to Home Assistant.
-ha_category:
-  - Notifications
+description: Instructions on how to add XMPP notifications to Home Assistant.
 ha_release: pre 0.7
-ha_codeowners:
-  - '@fabaff'
-  - '@flowolf'
 ha_domain: xmpp
-ha_iot_class: Cloud Push
-ha_platforms:
-  - notify
-ha_integration_type: integration
 related:
   - docs: /docs/configuration/
     title: Configuration file
-ha_quality_scale: legacy
 ---
 
-The `xmpp` notification {% term integration %} allows you to deliver notifications from Home Assistant to a [Jabber (XMPP)](https://xmpp.org/) account.
+The **XMPP** {% term integration %} allows you to deliver notifications from Home Assistant to an [XMPP](https://xmpp.org/) account.
 
 ## Configuration
 
-To enable Jabber notifications in your installation, add the following to your {% term "`configuration.yaml`" %} file.
+To enable XMPP notifications in your installation, add the following to your {% term "`configuration.yaml`" %} file.
 {% include integrations/restart_ha_after_config_inclusion.md %}
 
 ```yaml
@@ -57,7 +46,7 @@ password:
   required: true
   type: string
 recipient:
-  description: The Jabber IDs (JID) that will receive the messages.
+  description: Default Jabber IDs (JID) that will receive the notification. This can be a JID or a list of JIDs for multiple recipients.<br>This is where you want to send your Jabber notifications by default (when not specifying target in the action). Any JID(s) specified in the action’s target field will override this recipient content.
   required: true
   type: [string, list]
 tls:
@@ -90,7 +79,7 @@ All Jabber IDs (JID) must include the domain. Make sure that the password matche
 
 You can send text messages and images as well as other files through Jabber.
 
-### Jabber text message
+### XMPP text message
 
 Here are some examples on how to set up a script, that can be run from an automation.
 
@@ -100,7 +89,7 @@ it will be set to the component's `title` configuration variable. To keep it emp
 ```yaml
 # Example script.yaml entry
 1_send_jabber_message:
-  alias: "Text only Jabber message"
+  alias: "Text only XMPP message"
   sequence:
     - action: notify.jabber  # from notify.NOTIFIER_NAME
       data:
@@ -111,7 +100,7 @@ it will be set to the component's `title` configuration variable. To keep it emp
 ### Jabber image message
 
 You can send images or files from locally stored files or remote web locations via Jabber's HTTP Upload feature.
-To send files and images, your jabber server must support [XEP_0363](https://xmpp.org/extensions/xep-0363.html).
+To send files and images, your XMPP server must support [XEP_0363](https://xmpp.org/extensions/xep-0363.html).
 
 {% note %}
 Be aware that images are uploaded onto the Jabber server of your provider. They reside there un-encrypted and could be accessed by the server admins. Usually images are deleted after a few days.<br>
@@ -174,8 +163,6 @@ Number 4 sends a text-file, retrieved from GitHub, renamed to `Hass_Cheatsheet.t
 
 Number 5 sends an image retrieved from a URL, and an additional text message with `title` and `message`.
 
-{% raw %}
-
 ```yaml
 # Example script.yaml entry
 5_send_jabber_message_with_image_and_text:
@@ -189,11 +176,7 @@ Number 5 sends an image retrieved from a URL, and an additional text message wit
           url: "https://github.com/home-assistant/home-assistant.io/raw/next/source/images/favicon-192x192.png"
 ```
 
-{% endraw %}
-
 Number 6 sends an image from a templated URL.
-
-{% raw %}
 
 ```yaml
 # Example script.yaml entry
@@ -207,8 +190,6 @@ Number 6 sends an image from a templated URL.
         data:
           url_template: "https://www.foto-webcam.eu/webcam/dornbirn/{{ now().year }}/{{ '%02d' % now().month }}/{{ '%02d' % now().day }}/{{ '%02d' % now().hour }}{{ (now().minute + 58) % 60 // 10}}0_hd.jpg"
 ```
-
-{% endraw %}
 
 The possible source of a file is prioritized and only one will be picked up. `url_template` has the highest priority; next is `url` then `path_template` and finally if none of them are defined `path` would be used. `path` will be used to eliminate file extension guessing for unknown URL downloads. Only the file extension will be left, as Home Assistant changes the filename to a random string for added privacy.
 

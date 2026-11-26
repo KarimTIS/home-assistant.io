@@ -1,17 +1,7 @@
 ---
-title: Meteo.lt
 description: Instructions on how to integrate Lithuanian Hydrometeorological Service (Meteo.lt) within Home Assistant.
 ha_release: 2025.11
-ha_iot_class: Cloud Polling
-ha_category:
-  - Weather
-ha_codeowners:
-  - '@xE1H'
-ha_config_flow: true
 ha_domain: meteo_lt
-ha_platforms:
-  - weather
-ha_integration_type: service
 ---
 
 The **Meteo.lt** {% term integration %} uses meteorological data from the [Lithuanian Hydrometeorological Service](https://www.meteo.lt) (<abbr title="Lietuvos hidrometeorologijos tarnyba">LHMT</abbr>) to provide weather forecasts for locations in Lithuania. You can set up one or more locations via the user interface.
@@ -48,7 +38,7 @@ The following current weather data is provided:
 - **Wind direction** (degrees): Wind direction in degrees
 - **Wind gust speed** (m/s): Maximum wind gust speed
 - **Cloud coverage** (%): Percentage of cloud cover
-- **Condition**: Weather condition (clear, cloudy, rainy, etc.)
+- **Condition**: Weather condition (such as clear, cloudy, or rainy)
 
 ### Forecasts
 
@@ -72,4 +62,3 @@ Weather data is automatically updated every 30 minutes from the Meteo.lt <abbr t
 This integration follows standard integration removal. No extra steps are required.
 
 {% include integrations/remove_device_service.md %}
-

@@ -1,52 +1,28 @@
 ---
-title: VeSync
-description: Instructions on how to set up VeSync switches, outlets, and fans within Home Assistant.
-ha_category:
-  - Fan
-  - Light
-  - Number
-  - Switch
+description: Instructions on how to set up VeSync devices with Home Assistant.
 ha_release: 0.66
-ha_iot_class: Cloud Polling
-ha_config_flow: true
-ha_codeowners:
-  - '@markperdue'
-  - '@webdjoe'
-  - '@thegardenmonkey'
-  - '@cdnninja'
-  - '@iprak'
-  - '@sapuseven'
 ha_domain: vesync
-ha_platforms:
-  - binary_sensor
-  - diagnostics
-  - fan
-  - humidifier
-  - light
-  - number
-  - select
-  - sensor
-  - switch
-ha_integration_type: integration
 ---
 
-The **VeSync** {% term integration %} enables you to control smart switches and outlets connected to the VeSync App.
+The **VeSync** {% term integration %} enables you to control a wide variety of Levoit devices connected to the VeSync App. Currently this integration supports most bulbs, fans, air purifiers, switches, outlets, humidifers and select air fryers.
 
 The devices must be added to the VeSync App before this {% term integration %} can discover them.
 
 The following platforms are supported:
 
 - **binary sensor**
+- **button**
 - **fan**
 - **humidifier**
 - **light**
 - **number**
 - **sensor**
 - **switch**
+- **update**
 
 ## Supported devices
 
-This {% term integration %} supports devices controllable by the VeSync App.  The following devices are supported by this {% term integration %}:
+This {% term integration %} supports devices controllable by the VeSync App. The following devices are supported by this {% term integration %}. This list may not be exhaustive as devices have multiple model numbers within this.
 
 ### Bulbs
 - Etekcity WiFi Dimmable LED Bulb (ESL100)
@@ -82,7 +58,17 @@ This {% term integration %} supports devices controllable by the VeSync App.  Th
 
 - Classic200S: Classic 200S Smart Ultrasonic Cool Mist Humidifier
 - Classic300S: Classic 300S Ultrasonic Smart Humidifier
+- OasisMist 4.5L Smart Humidifier (LUH-O451S-WEU)
+- OasisMist 1000S Smart Ultrasonic Cool Mist Tower Humidifier (LUH-M101S-WUS)
 - Superior6000S: Superior 6000S Smart Evaporative Humidifier
+
+### Air Fryers
+
+- Cosori 3.7 and 5.8 Quart Air Fryer
+- Cosori TurboBlaze 6 Quart Air Fryer
+- Cosori Dual Blaze 6.8 Quart Air Fryer
+- Cosori Twinfry Dual Air Fryer
+- Cosori Turbo Tower Pro Smart Air Fryer
 
 ## Prerequisite
 
@@ -92,11 +78,17 @@ the configuration section below.
 
 {% include integrations/config_flow.md %}
 
-## Actions
+## Data updates
 
-| Action | Description |
-|---------|-------------|
-| `update_devices` | Poll Vesync server to find and add any new devices |
+The integration {% term polling polls %} the VeSync cloud every 60 seconds. The weekly, monthly, and yearly energy use of outlets is fetched every 6 hours.
+
+## Removing the integration
+
+This integration follows standard integration removal. No extra steps are required.
+
+{% include integrations/remove_device_service.md %}
+
+{% include integrations/actions.md %}
 
 ## Power & energy sensors
 
@@ -120,10 +112,19 @@ All VeSync air purifiers expose the remaining filter lifetime, and some also exp
 | `filter_life`           | Remaining percentage of the filter. (LV-PUR131S, Core200S/300s/400s/600s/EverestAir)   | 142       |
 | `air_quality`           | The current air quality reading. (LV-PUR131S, Core300s/400s/600s)                      | excellent |
 | `pm2_5`                 | The current air quality reading. (Core300s/400s/600s/EverestAir)                       | 8         |
+| `pm1`                   | The current PM1 reading in µg/m³ (purifiers that measure it).                          | 5         |
+| `pm10`                  | The current PM10 reading in µg/m³ (purifiers that measure it).                         | 12        |
 
 | Switch                  | Description                                                                        | Example   |
 | ----------------------- | ---------------------------------------------------------------------------------- | --------- |
 | `display`               | Display On or Off                                                                  | On        |
+| `mute`                  | Mutes the sounds the device makes. Only available on fans that support muting.     | On        |
+| `light_detection`       | Light detection On or Off. When on, the purifier responds to the light level in the room. (Vital 200S, EverestAir) | On        |
+| `child_lock`            | Child lock On or Off                                                               | Off       |
+
+| Button                  | Description                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------- |
+| `reset_filter`          | Resets the filter life to 100%. Press it after replacing the filter. (Core 200S)   |
 
 ## Fan exposed attributes
 
@@ -132,11 +133,9 @@ VeSync air purifiers will expose the following details depending on the features
 | Attribute               | Description                                                                       | Example         |
 | ----------------------- | --------------------------------------------------------------------------------- | --------------- |
 | `mode`                  | The current mode the device is in. (LV-PUR131S, Core200S/300s/400s)               | manual          |
-| `speed`                 | The current speed setting of the device. (LV-PUR131S, Core200S/300s/400s)         | high            |
-| `speed_list`            | The available list of speeds supported by the device. (LV-PUR131S)                | high            |
-| 'oscillating'           | If the fan is currently oscillating                                               | True            |
+| `oscillating`           | If the fan is currently oscillating                                               | True            |
 | `active_time`           | The number of seconds since the device has been in a non-off mode. (LV-PUR131S)   | 1598            |
-| `screen_status`         | The current status of the screen. (LV-PUR131S)                                    | on              |
+| `display_status`        | The current status of the display.                                                | on              |
 | `night_light`           | The current status of the night light (Core200S/Core400s)                         | off             |
 | `child_lock`            | The current status of the child lock (Core200S/300s/400s)                         | off             |
 
@@ -148,9 +147,14 @@ VeSync air purifiers will expose the following details depending on the features
 
 Sensors and settings exposed by VeSync humidifiers.
 
+On humidifiers with a color night light, the **Night light** entity provides on/off, brightness, and color controls. You can control the night light while mist output is off.
+
+The OasisMist 4.5L has a minimum light brightness of 40%, so its night light cannot dim below that level.
+
 | Sensor                  | Description                                                                        | Example   |
 | ----------------------- | ---------------------------------------------------------------------------------- | --------- |
 | `humidity`              | Current humidity (in %)                                                            | 35        |
+| `temperature`           | Current temperature (Superior6000S)                                                | 68        |
 
 | Number                  | Description                                                                        | Example   |
 | ----------------------- | ---------------------------------------------------------------------------------- | --------- |
@@ -163,6 +167,8 @@ Sensors and settings exposed by VeSync humidifiers.
 | Switch                  | Description                                                                        | Example   |
 | ----------------------- | ---------------------------------------------------------------------------------- | --------- |
 | `display`               | Display On or Off                                                                  | On        |
+| `auto_off_config`       | Auto turn off when humidity target exceeded, resume when below target              | On        |
+| `drying_mode_power_off` | Enable drying mode while power is off (Superior6000S)                              | On        |
 
 
 ## Binary Sensors
@@ -171,16 +177,41 @@ Sensors and settings exposed by VeSync humidifiers.
 | ----------------------- | ---------------------------------------------------------------------------------- | --------- |
 | `water_lacks`           | Indicates whether the device needs a water refill                                  | false     |
 | `water_tank_lifted`     | Water tank is lifted                                                               | false     |
+| `sync_chambers`         | On dual-basket air fryers, indicates whether both baskets use the same settings   | true      |
+
+## Air Fryers
+
+Sensors and settings exposed by VeSync Air Fryers.
+
+| Sensor                  | Description                                                                            | Example   |
+| ----------------------- | -------------------------------------------------------------------------------------- | --------- |
+| `cook_status`           | Current status of the fryer                                                            | cooking   |
+| `current_temp`          | Current internal temperature of the fryer,  Unknown when off.                          | 150C      |
+| `cook_set_temp`         | The target cooking temperature                                                         | 165C      |
+| `cook_set_time`         | The number of minutes for cooking                                                      | 15        |
+| `cook_end_time`         | When the running cook finishes, preheating included. Unknown when paused or stopped    | 12:19     |
+| `preheat_set_time`      | The number of minutes for pre heating                                                  | 10        |
+
+The `preheat_set_time` sensor is only available on air fryers that support preheating. For example, the Dual Blaze doesn't have it.
+
+On dual-basket air fryers, you get a separate set of these sensors for each basket. The sensor names include the basket number, such as **Basket 1 cooking status** and **Basket 2 cooking status**. This way, you can follow each basket on its own. On single-basket air fryers, the sensor names do not include a basket number.
+
+| Button                  | Description                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| `stop_cooking`          | Stops cooking or preheating                                                            |
+| `pause_cooking`         | Pauses cooking. Only on air fryers that support pausing (CS137, CS158, Turbo Tower Pro) |
+| `resume_cooking`        | Resumes paused cooking with the remaining time. Same air fryers as pause               |
+
+On dual-basket air fryers, each button is available once per basket, such as **Basket 1 pause cooking**. It only acts on that basket.
+
 
 ## Extracting attribute data
 
-In order to get the attributes readings from supported devices, such as voltage from outlets or fan attributes, you'll have to create a [template sensor](/integrations/template#state-based-template-sensors/).
+To get the attributes readings from supported devices, such as voltage from outlets or fan attributes, you'll have to create a [template sensor](/integrations/template#state-based-template-sensors/).
 
 In the example below, change all of the `vesync_switch`'s to match your device's entity ID.
 
-Adapted from the [TP-Link integration](https://www.home-assistant.io/integrations/tplink/#plugs).
-
-{% raw %}
+Adapted from the [TP-Link integration](/integrations/tplink/#plugs).
 
 ```yaml
 template:
@@ -189,5 +220,3 @@ template:
       state: "{{ state_attr('switch.vesync_switch', 'voltage') | float(default=0) }}"
       unit_of_measurement: "V"
 ```
-
-{% endraw %}

@@ -1,33 +1,35 @@
 ---
-title: OpenWrt (ubus)
-description: Instructions on how to integrate OpenWRT routers into Home Assistant.
-ha_category:
-  - Presence detection
+description: Instructions on how to integrate OpenWrt devices into Home Assistant.
 ha_release: 0.7.6
-ha_iot_class: Local Polling
 ha_domain: ubus
-ha_platforms:
-  - device_tracker
-ha_integration_type: integration
 related:
   - docs: /docs/configuration/
     title: Configuration file
-ha_quality_scale: legacy
 ---
 
-This is a presence detection scanner for [OpenWrt](https://openwrt.org/) using [ubus](https://openwrt.org/docs/techref/ubus). It scans for changes in `hostapd.*`, which will detect and report changes in devices connected to the access point on the router.
+This is a presence detection scanner for [OpenWrt](https://openwrt.org/) using [ubus](https://openwrt.org/docs/techref/ubus). It scans for changes in `hostapd.*`, which will detect and report changes in client devices connected to the access point on the OpenWrt device.
+
+{% important %}
+The integration should be configured on OpenWrt devices providing wireless access points, not on devices acting only as routers.
+{% endimportant %}
 
 Before this scanner can be used, you have to install the ubus RPC packages on OpenWrt (versions older than 18.06.x do not require the `uhttpd-mod-ubus` package):
 
 ```bash
-opkg update
-opkg install rpcd-mod-file uhttpd-mod-ubus
+apk update
+apk add rpcd-mod-file uhttpd-mod-ubus
 ```
 
 Add a new system user `hass` (or do it in any other way that you prefer):
 
-- Add line to /etc/passwd: hass:x:10001:10001:hass:/var:/bin/false
-- Add line to /etc/shadow: hass:x:0:0:99999:7:::
+- Add line to `/etc/passwd`: `hass:x:10001:10001:hass:/var:/bin/false`
+- Add line to `/etc/shadow`: `hass:x:0:0:99999:7:::`
+
+Then set a password for the `hass` user:
+
+```bash
+passwd hass
+```
 
 Edit the `/etc/config/rpcd` and add the following lines:
 
@@ -49,7 +51,13 @@ Then, create an ACL file at `/usr/share/rpcd/acl.d/hass.json` for the user `hass
     "read": {
       "ubus": {
         "hostapd.*": ["get_clients"],
-        "uci": ["get"]
+        "uci": ["get"],
+        "dhcp": ["ipv4leases"],
+        "file": ["read"]
+      },
+      "uci": ["dhcp"],
+      "file": {
+        "/tmp/dhcp.leases": ["read"]
       }
     },
     "write": {}
@@ -57,52 +65,60 @@ Then, create an ACL file at `/usr/share/rpcd/acl.d/hass.json` for the user `hass
 }
 ```
 
-Restart the services. Add the file path to /etc/sysupgrade.conf so that it remains after updating/upgrading your OpenWrt firmware.
+_Check your lease file path:_ The entry `/tmp/dhcp.leases` is the OpenWrt default for dnsmasq. If you have a custom configuration, run `uci get dhcp.@dnsmasq[0].leasefile` on your device. Should it return a different path, then you must update the `hass.json` file above to match it, or client device names will not be correctly resolved. This step can be ignored if dnsmasq is disabled on your device.
+
+Restart the services.
 
 ```bash
 # /etc/init.d/rpcd restart && /etc/init.d/uhttpd restart
 ```
 
-Check if the `file` namespaces is registered with the RPC server.
+Check if the `file` namespace is registered with the RPC server.
 
 ```bash
 # ubus list | grep file
 file
 ```
 
-After this is done, add the following to your {% term "`configuration.yaml`" %} file.
-{% include integrations/restart_ha_after_config_inclusion.md %}
+{% tip %}
+If not already done, add the ACL file path to `/etc/sysupgrade.conf` so that the file remains after updating/upgrading your OpenWrt firmware.
 
-```yaml
-# Example configuration.yaml entry
-device_tracker:
-  - platform: ubus
-    host: ROUTER_IP_ADDRESS
-    username: YOUR_ADMIN_USERNAME
-    password: YOUR_ADMIN_PASSWORD
+```bash
+# echo "/usr/share/rpcd/acl.d/hass.json" >> /etc/sysupgrade.conf
 ```
+{% endtip %}
 
-{% configuration %}
-host:
-  description: The IP address of your router, e.g., 192.168.1.1.
-  required: true
-  type: string
-username:
-  description: The username of a user with administrative privileges, usually `root`.
-  required: true
-  type: string
-password:
-  description: The password for your given admin account.
-  required: true
-  type: string
-dhcp_software:
-  description: "The DHCP software used in your router: `dnsmasq`, `odhcpd`, or `none`."
-  required: false
-  default: dnsmasq
-  type: string
-{% endconfiguration %}
+{% include integrations/config_flow.md %}
 
-See the [device tracker integration page](/integrations/device_tracker/) for instructions how to configure the people to be tracked.
+{% configuration_basic %}
+Host:
+  description: The IP address of your OpenWrt device, for example, `192.168.1.1`.
+Username:
+  description: The username for the account you created on your OpenWrt device. Use the dedicated `hass` user rather than `root` to follow the principle of least privilege.
+Password:
+  description: The password for the user above.
+Uses an SSL certificate:
+  description: Connects to your OpenWrt device over HTTPS instead of HTTP. By default, off.
+Verify SSL certificate:
+  description: Checks the SSL certificate of your OpenWrt device when you connect over HTTPS. OpenWrt uses a self-signed certificate by default, so you might need to turn this off. By default, on.
+DHCP software:
+  description: "The DHCP software used in your OpenWrt device: `dnsmasq`, `odhcpd`, or `none`. Use `none` if neither service is used on the device, for example, if it's a bridged access point."
+{% endconfiguration_basic %}
+
+If you configured multiple OpenWrt devices, add the integration once for each device.
+
+If you set up this integration in YAML before, Home Assistant imports that configuration automatically. You can then remove the `ubus` entries from your {% term "`configuration.yaml`" %} file.
+
+## Tracking people
+
+The integration creates a device tracker entity for each client device it sees on your OpenWrt device. These entities are disabled by default.
+
+To track a person with one of these devices:
+
+1. Go to {% my integrations title="**Settings** > **Devices & services**" %} and select **OpenWrt (ubus)**.
+2. Select the device you want to track, then [enable](/docs/configuration/customizing-entities/#disabling-or-enabling-an-entity) its device tracker entity.
+3. Go to {% my people title="**Settings** > **People**" %}, select the person, and add the device tracker entity with **Pick device to track**.
+4. Select **Save**.
 
 ## Troubleshooting
 
@@ -123,7 +139,7 @@ If you find that this never creates `known_devices.yaml`, or if you need more in
 3. In another window, observe the logs.
 
     - If using an {% term "Home Assistant Supervisor" %} based installation, such as the
-    {% term "Home Assistant Operating System" %}, log in through the [SSH add-on](/common-tasks/os/#installing-and-using-the-ssh-add-on) and run the following command:
+    {% term "Home Assistant Operating System" %}, log in through the [SSH add-on](/common-tasks/os/#installing-and-using-the-ssh-app) and run the following command:
 
       ```bash
       ha core logs --follow | grep device_tracker

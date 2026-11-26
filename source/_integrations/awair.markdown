@@ -1,28 +1,16 @@
 ---
-title: Awair
-description: Instructions on how to setup Awair devices in Home Assistant.
-ha_category:
-  - Health
-ha_config_flow: true
+description: Instructions on how to set up Awair devices in Home Assistant.
 ha_release: 0.84
-ha_iot_class: Local Polling
-ha_codeowners:
-  - '@ahayworth'
-  - '@danielsjf'
 ha_domain: awair
-ha_platforms:
-  - sensor
-ha_integration_type: integration
-ha_zeroconf: true
 ---
 
-The Awair integration will fetch data from your [Awair devices](https://getawair.com).
+The **Awair** {% term integration %} will fetch data from your [Awair devices](https://getawair.com).
 
 ## Prerequisites
 
 ### Connect locally (preferred)
 
-When connecting locally, the integration will poll the device every 30 seconds. Awair provides a [list of devices](https://support.getawair.com/hc/en-us/articles/360049221014-Awair-Element-Local-API-Feature#h_01F40FB3ETMR4TZKPVXJNE86HQ) that support the Local API. This API must be enabled via the Awair app via [these steps](https://support.getawair.com/hc/en-us/articles/360049221014-Awair-Element-Local-API-Feature#h_01F40FBBW5323GBPV7D6XMG4J8). If you add new Awair devices to your home, you must follow these steps again.
+When connecting locally, the integration will poll the device every 30 seconds. Awair provides a [list of devices](https://support.getawair.com/hc/articles/360049221014#h_01F40FB3ETMR4TZKPVXJNE86HQ) that support the Local API. This API must be enabled via the Awair app via [these steps](https://support.getawair.com/hc/articles/360049221014#h_01F40FBBW5323GBPV7D6XMG4J8). If you add new Awair devices to your home, you must follow these steps again.
 
 ### Connect via the cloud
 
@@ -31,6 +19,15 @@ When connecting via the cloud, data is summarized over 5-minute intervals. All d
 This integration refreshes once every 5 minutes, based on the [default per-device quota](https://docs.developer.getawair.com/?version=latest#tiers--quotas) of 300 API calls per day.
 
 {% include integrations/config_flow.md %}
+
+{% configuration_basic %}
+Device:
+  description: "Only when you connect locally. Select an Awair device Home Assistant found on your network, or select **Manual** to enter an IP address instead."
+IP address:
+  description: "Only when you connect locally. The IP address of your Awair device. The form asks for it when no device was found, or after you select **Manual**."
+Access token:
+  description: "Only when you connect via the cloud. Your access token from the Awair [Developer Console](https://developer.getawair.com/)."
+{% endconfiguration_basic %}
 
 ## Available sensors
 
